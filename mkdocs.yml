@@ -1,0 +1,74 @@
+site_name: TFOML · Verstehen durch Ausprobieren
+site_description: Interaktives Lernbuch zur theoretischen Fundierung des maschinellen Lernens
+site_author: TFOML Lernprojekt
+site_url: https://aldebsmouaiad.github.io/tfoml/
+docs_dir: docs
+site_dir: site
+use_directory_urls: false
+theme:
+  name: material
+  language: de
+  font: false
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  palette:
+    - scheme: default
+      primary: custom
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Dunklen Modus einschalten
+    - scheme: slate
+      primary: custom
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Hellen Modus einschalten
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+plugins:
+  - search:
+      lang: [de, en]
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+extra_css:
+  - assets/stylesheets/learning.css
+extra_javascript:
+  - assets/javascripts/mathjax-config.js
+  - assets/vendor/mathjax/tex-svg.js
+  - assets/vendor/plotly/plotly.min.js
+  - assets/javascripts/math-core.js
+  - assets/javascripts/learning.js
+nav:
+  - Start: index.md
+  - Übungsblatt 01:
+      - Überblick: blatt-01/index.md
+      - '1 · Endliche Klassen': blatt-01/aufgabe-1.md
+      - '2 · Rechtecke & PAC': blatt-01/aufgabe-2.md
+      - 'Bonus · VC-Dimension': blatt-01/vc-dimension.md
+  - Grundlagen:
+      - Notation & PAC: grundlagen/notation.md
+      - Implikationen beweisen: grundlagen/beweise.md
+  - Quellen & Projekt:
+      - Quellenanalyse: projekt/quellen.md
+      - Weitere Blätter ergänzen: projekt/erweitern.md
+      - Einrichtung & Technik: projekt/einrichtung.md
+copyright: Eigenständiges Lernprojekt · keine offizielle Musterlösung der TU Dortmund

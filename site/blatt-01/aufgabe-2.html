@@ -1,0 +1,1475 @@
+
+<!doctype html>
+<html lang="de" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Interaktives Lernbuch zur theoretischen Fundierung des maschinellen Lernens">
+      
+      
+        <meta name="author" content="TFOML Lernprojekt">
+      
+      
+        <link rel="canonical" href="https://aldebsmouaiad.github.io/tfoml/blatt-01/aufgabe-2.html">
+      
+      
+        <link rel="prev" href="aufgabe-1.html">
+      
+      
+        <link rel="next" href="vc-dimension.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>2 · Rechtecke & PAC - TFOML · Verstehen durch Ausprobieren</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/learning.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#warum-vier-randstreifen-eine-lerngarantie-liefern" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../index.html" title="TFOML · Verstehen durch Ausprobieren" class="md-header__button md-logo" aria-label="TFOML · Verstehen durch Ausprobieren" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TFOML · Verstehen durch Ausprobieren
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 · Rechtecke & PAC
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="teal"  aria-label="Dunklen Modus einschalten"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dunklen Modus einschalten" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="teal"  aria-label="Hellen Modus einschalten"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Hellen Modus einschalten" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Start
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Übungsblatt 01
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../grundlagen/notation.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Grundlagen
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../projekt/quellen.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Quellen & Projekt
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="TFOML · Verstehen durch Ausprobieren" class="md-nav__button md-logo" aria-label="TFOML · Verstehen durch Ausprobieren" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    TFOML · Verstehen durch Ausprobieren
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Übungsblatt 01
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Übungsblatt 01
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aufgabe-1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 · Endliche Klassen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 · Rechtecke & PAC
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="aufgabe-2.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 · Rechtecke & PAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#originalaufgabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Originalaufgabe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modell-und-benotigte-grundlagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modell und benötigte Grundlagen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-21-warum-ist-das-kleinste-rechteck-ein-erm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.1: Warum ist das kleinste Rechteck ein ERM?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#das-rechteck-labor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Das Rechteck-Labor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-22-warum-genugen-vier-getroffene-randstreifen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.2: Warum genügen vier getroffene Randstreifen?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Teil 2.2: Warum genügen vier getroffene Randstreifen?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anschauliche-konstruktion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anschauliche Konstruktion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prazisierung-fur-punktmassen-und-beliebige-verteilungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Präzisierung für Punktmassen und beliebige Verteilungen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-23-vom-geometrischen-argument-zur-pac-garantie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.3: Vom geometrischen Argument zur PAC-Garantie
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theorie-und-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theorie und Simulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#was-ist-der-sinn-der-aufgabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Was ist der Sinn der Aufgabe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selbstkontrolle-und-typische-fehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selbstkontrolle und typische Fehler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quellen-und-einordnung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quellen und Einordnung
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vc-dimension.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bonus · VC-Dimension
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Grundlagen
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Grundlagen
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grundlagen/notation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notation & PAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grundlagen/beweise.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implikationen beweisen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quellen & Projekt
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quellen & Projekt
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../projekt/quellen.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quellenanalyse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../projekt/erweitern.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weitere Blätter ergänzen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../projekt/einrichtung.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Einrichtung & Technik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#originalaufgabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Originalaufgabe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modell-und-benotigte-grundlagen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modell und benötigte Grundlagen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-21-warum-ist-das-kleinste-rechteck-ein-erm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.1: Warum ist das kleinste Rechteck ein ERM?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#das-rechteck-labor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Das Rechteck-Labor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-22-warum-genugen-vier-getroffene-randstreifen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.2: Warum genügen vier getroffene Randstreifen?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Teil 2.2: Warum genügen vier getroffene Randstreifen?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anschauliche-konstruktion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anschauliche Konstruktion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prazisierung-fur-punktmassen-und-beliebige-verteilungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Präzisierung für Punktmassen und beliebige Verteilungen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teil-23-vom-geometrischen-argument-zur-pac-garantie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teil 2.3: Vom geometrischen Argument zur PAC-Garantie
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theorie-und-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theorie und Simulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#was-ist-der-sinn-der-aufgabe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Was ist der Sinn der Aufgabe?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selbstkontrolle-und-typische-fehler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selbstkontrolle und typische Fehler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quellen-und-einordnung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quellen und Einordnung
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p class="eyebrow">Blatt 01 / Aufgabe 2.1–2.3</p>
+
+<h1 id="warum-vier-randstreifen-eine-lerngarantie-liefern">Warum vier Randstreifen eine Lerngarantie liefern<a class="headerlink" href="#warum-vier-randstreifen-eine-lerngarantie-liefern" title="Permanent link">&para;</a></h1>
+<p><strong>Lernziel:</strong> Du kannst den Rechteck-Lerner begründen, seine mögliche Fehlerregion geometrisch beschreiben und daraus eine PAC-Garantie herleiten.</p>
+<h2 id="originalaufgabe">Originalaufgabe<a class="headerlink" href="#originalaufgabe" title="Permanent link">&para;</a></h2>
+<p>Die Hypothesenklasse besteht aus achsenparallelen Rechteck-Klassifikatoren:</p>
+<div class="arithmatex">\[
+h_{a_1,a_2,b_1,b_2}(x_1,x_2)=
+\begin{cases}
+1,&amp;a_1\le x_1\le a_2\ \text{und}\ b_1\le x_2\le b_2,\\
+0,&amp;\text{sonst}.
+\end{cases}
+\]</div>
+<p>Unter der Realisierbarkeitsannahme verlangt das Blatt:</p>
+<ol>
+<li>Zeige, dass das kleinste Rechteck um alle positiven Beispiele null Trainingsfehler erreicht.</li>
+<li>Definiere vier Randbereiche mit Masse <span class="arithmatex">\(\varepsilon/4\)</span>. Zeige: Trifft die Stichprobe jeden Randbereich, gilt <span class="arithmatex">\(L_D(R(S))\le\varepsilon\)</span>.</li>
+<li>Folgere</li>
+</ol>
+<div class="arithmatex">\[
+\boxed{m\ge\frac4\varepsilon\ln\!\left(\frac4\delta\right)
+\quad\Longrightarrow\quad
+\Pr_{S\sim D^m}\!\left(L_D(R(S))&gt;\varepsilon\right)\le\delta.}
+\]</div>
+<p>Der <a href="vc-dimension.html">VC-Bonus</a> ist separat ausgearbeitet. Quelle: <code>exercises.pdf</code>, Aufgabe 2, PDF-Seite 1; mathematischer Inhalt hier wiedergegeben.</p>
+<h2 id="modell-und-benotigte-grundlagen">Modell und benötigte Grundlagen<a class="headerlink" href="#modell-und-benotigte-grundlagen" title="Permanent link">&para;</a></h2>
+<p>Es existiert ein festes Zielrechteck</p>
+<div class="arithmatex">\[
+R^\star=[a_1^\star,a_2^\star]\times[b_1^\star,b_2^\star],
+\qquad y=\mathbf1_{R^\star}(x).
+\]</div>
+<p>Die Eingaben <span class="arithmatex">\(x_1,\ldots,x_m\)</span> werden i.i.d. aus einer unbekannten Verteilung <span class="arithmatex">\(D\)</span> auf <span class="arithmatex">\(\mathbb R^2\)</span> gezogen. Die Labels enthalten im Modell kein Rauschen. Es gilt <span class="arithmatex">\(0&lt;\varepsilon,\delta&lt;1\)</span>. Schreibweise: <span class="arithmatex">\(D(A)\)</span> bezeichnet die Wahrscheinlichkeit, dass ein neues Beispiel in der Menge <span class="arithmatex">\(A\)</span> liegt.</p>
+<p><strong>Realisierbarkeit</strong> bedeutet, dass die Zielbeschriftung durch eine zulässige Hypothese dargestellt werden kann. Formal genügt die Übereinstimmung fast sicher bezüglich <span class="arithmatex">\(D\)</span>. Dann gelten die Stichprobenaussagen ebenfalls mit Wahrscheinlichkeit eins.</p>
+<div class="admonition info">
+<p class="admonition-title">Algorithmus bei keiner positiven Beobachtung</p>
+<p>Wenn keine positiven Trainingspunkte vorhanden sind, setzen wir <span class="arithmatex">\(R(S)=\varnothing\)</span>, also <span class="arithmatex">\(h_S\equiv0\)</span>. Diese Konvention ist im Blatt nicht festgelegt. Wird die ursprüngliche Klasse auf nichtleere Rechtecke beschränkt, arbeiten wir ausdrücklich mit <span class="arithmatex">\(H_{\rm rect}\cup\{h_0\}\)</span>. Ihre VC-Dimension bleibt 4. Ein beliebig gewähltes nichtleeres Rechteck wäre kein Ersatz für die Inklusion <span class="arithmatex">\(R(S)\subseteq R^\star\)</span>.</p>
+</div>
+<h2 id="teil-21-warum-ist-das-kleinste-rechteck-ein-erm">Teil 2.1: Warum ist das kleinste Rechteck ein ERM?<a class="headerlink" href="#teil-21-warum-ist-das-kleinste-rechteck-ein-erm" title="Permanent link">&para;</a></h2>
+<p>Sei <span class="arithmatex">\(P=\{i:y_i=1\}\)</span>. Für <span class="arithmatex">\(P\ne\varnothing\)</span> definieren wir</p>
+<p>[
+\widehat a_1=\min_{i\in P}x_{i,1},\qquad
+\widehat a_2=\max_{i\in P}x_{i,1},
+]
+[
+\widehat b_1=\min_{i\in P}x_{i,2},\qquad
+\widehat b_2=\max_{i\in P}x_{i,2},
+\quad
+R(S)=[\widehat a_1,\widehat a_2]\times[\widehat b_1,\widehat b_2].
+]</p>
+<p>Bei nur einem positiven Punkt entsteht ein entartetes Rechteck (ein Punkt); bei mehreren Punkten auf einer Geraden gegebenenfalls eine Strecke. Geschlossene, auch entartete Rechtecke sind zugelassen.</p>
+<details class="tip">
+<summary>Warum nur die positiven Punkte?</summary>
+<p>Alle positiven Punkte liegen im Zielrechteck. Ihr kleinstes umschließendes Rechteck liegt deshalb ebenfalls darin. Unter Realisierbarkeit kann darin kein negativ beschrifteter Trainingspunkt liegen.</p>
+</details>
+<div class="tf-proof">
+<details>
+<summary>1. Alle positiven Trainingspunkte liegen in R(S)</summary>
+<p>Für jedes <span class="arithmatex">\(i\in P\)</span> liegt jede Koordinate zwischen dem jeweiligen Minimum und Maximum. Also <span class="arithmatex">\(x_i\in R(S)\)</span> und <span class="arithmatex">\(h_S(x_i)=1=y_i\)</span>.</p>
+<p><strong>Begründung:</strong> Definition von Minimum, Maximum und kartesischem Produkt.</p>
+<p><strong>Intuition:</strong> Das Rechteck wird genau so aufgespannt, dass es jeden positiven Trainingspunkt umfasst.</p>
+</details>
+<details>
+<summary>2. Das gelernte Rechteck liegt im Zielrechteck</summary>
+<p>Weil jeder positive Trainingspunkt in <span class="arithmatex">\(R^\star\)</span> liegt, gilt</p>
+<div class="arithmatex">\[
+a_1^\star\le\widehat a_1\le\widehat a_2\le a_2^\star,
+\qquad
+b_1^\star\le\widehat b_1\le\widehat b_2\le b_2^\star.
+\]</div>
+<p>Daraus folgt <span class="arithmatex">\(R(S)\subseteq R^\star\)</span>. Für <span class="arithmatex">\(P=\varnothing\)</span> gilt diese Inklusion wegen unserer Konvention ebenfalls.</p>
+<p><strong>Intuition:</strong> Die Grenzen des inneren Rechtecks können nicht über die Grenzen des Zielrechtecks hinausragen.</p>
+</details>
+<details>
+<summary>3. Negative Trainingspunkte werden ebenfalls richtig klassifiziert</summary>
+<p>Aus <span class="arithmatex">\(y_i=0\)</span> folgt <span class="arithmatex">\(x_i\notin R^\star\)</span>. Weil <span class="arithmatex">\(R(S)\subseteq R^\star\)</span>, gilt dann auch <span class="arithmatex">\(x_i\notin R(S)\)</span>. Also <span class="arithmatex">\(h_S(x_i)=0=y_i\)</span>.</p>
+<p>Im Fall ohne positive Punkte sagt <span class="arithmatex">\(h_S\equiv0\)</span> alle Trainingslabels richtig voraus.</p>
+<p><strong>Intuition:</strong> Ein Punkt außerhalb des äußeren Rechtecks kann nicht im inneren Rechteck liegen.</p>
+</details>
+<details>
+<summary>4. Null Fehler ist das Minimum</summary>
+<p>Alle Trainingspunkte sind korrekt klassifiziert. Daher</p>
+<div class="arithmatex">\[
+L_S(h_S)=\frac1m\sum_{i=1}^m\mathbf1\{h_S(x_i)\ne y_i\}=0.
+\]</div>
+<p>Ein Verlust ist nichtnegativ. Somit erreicht <span class="arithmatex">\(h_S\)</span> das kleinstmögliche empirische Risiko und ist eine ERM-Hypothese.</p>
+<p><strong>Intuition:</strong> Besser als keinen Trainingsfehler kann kein anderer Klassifikator sein. Die ERM-Hypothese muss dafür nicht eindeutig sein.</p>
+</details>
+</div>
+<h2 id="das-rechteck-labor">Das Rechteck-Labor<a class="headerlink" href="#das-rechteck-labor" title="Permanent link">&para;</a></h2>
+<div class="tf-lab" data-tf-lab="rectangles"></div>
+<noscript><p class="tf-noscript">Aktiviere JavaScript für die interaktive Geometrie. Alle Beweise bleiben im Text verfügbar.</p></noscript>
+
+<p><strong>Probiere aus:</strong> Beginne mit sehr wenigen Punkten. Der Trainingsfehler bleibt null; der wahre Fehler kann dennoch groß sein. Erhöhe <span class="arithmatex">\(m\)</span> bei unverändertem Seed. Das gelernte Rechteck enthält nun die alten und die zusätzlichen positiven Punkte. Unter dieser gekoppelten Stichprobe kann es nur wachsen; die Fehlerregion kann nur schrumpfen.</p>
+<h2 id="teil-22-warum-genugen-vier-getroffene-randstreifen">Teil 2.2: Warum genügen vier getroffene Randstreifen?<a class="headerlink" href="#teil-22-warum-genugen-vier-getroffene-randstreifen" title="Permanent link">&para;</a></h2>
+<p>Weil <span class="arithmatex">\(R(S)\subseteq R^\star\)</span>, macht der Algorithmus ausschließlich <strong>falsch negative</strong> Vorhersagen. Seine Fehlerregion ist</p>
+<div class="arithmatex">\[
+E(S)=R^\star\setminus R(S),\qquad L_D(h_S)=D(E(S)).
+\]</div>
+<p><strong>Erster Fall:</strong> Ist <span class="arithmatex">\(D(R^\star)\le\varepsilon\)</span>, dann folgt bereits</p>
+<div class="arithmatex">\[
+L_D(h_S)=D(R^\star\setminus R(S))\le D(R^\star)\le\varepsilon.
+\]</div>
+<p>Wir müssen also nur <span class="arithmatex">\(D(R^\star)&gt;\varepsilon\)</span> untersuchen. Setze <span class="arithmatex">\(q=\varepsilon/4\)</span>.</p>
+<h3 id="anschauliche-konstruktion">Anschauliche Konstruktion<a class="headerlink" href="#anschauliche-konstruktion" title="Permanent link">&para;</a></h3>
+<p>Wähle links, rechts, unten und oben im Zielrechteck je einen Randstreifen <span class="arithmatex">\(B_i\)</span> mit Masse <span class="arithmatex">\(q\)</span>, <strong>sofern solche Streifen existieren</strong>. Für eine Gleichverteilung im Einheitsquadrat ist ihre Masse ihre Fläche. Bei einer beliebigen Verteilung ist Masse dagegen nicht dasselbe wie Fläche.</p>
+<p>Die vier Streifen sind vor dem Ziehen der Stichprobe durch <span class="arithmatex">\(D,R^\star,\varepsilon\)</span> festgelegt. Sie sind Beweishilfen; der Lerner muss <span class="arithmatex">\(D\)</span>, <span class="arithmatex">\(R^\star\)</span> und die Streifen nicht kennen.</p>
+<div class="tf-proof">
+<details>
+<summary>1. Ein linker Treffer begrenzt den linken Fehlerbereich</summary>
+<p>Sei <span class="arithmatex">\(B_L=R^\star\cap\{x:x_1\le t_L\}\)</span>. Gibt es einen positiven Trainingspunkt in <span class="arithmatex">\(B_L\)</span>, dann ist</p>
+<div class="arithmatex">\[
+\widehat a_1\le x_{i,1}\le t_L.
+\]</div>
+<p>Jeder links vom gelernten Rechteck liegende Punkt erfüllt <span class="arithmatex">\(x_1&lt;\widehat a_1\le t_L\)</span>. Der linke Fehlerbereich liegt also im linken Streifen und hat Masse höchstens <span class="arithmatex">\(q\)</span>.</p>
+<p><strong>Intuition:</strong> Ein Beobachtungspunkt nahe dem linken Rand zwingt die linke gelernte Grenze weit genug nach außen.</p>
+</details>
+<details>
+<summary>2. Dasselbe Argument gilt für alle vier Seiten</summary>
+<p>Ein rechter Treffer liefert <span class="arithmatex">\(\widehat a_2\ge t_R\)</span>, ein unterer <span class="arithmatex">\(\widehat b_1\le t_U\)</span>, ein oberer <span class="arithmatex">\(\widehat b_2\ge t_O\)</span>. Jeder der vier einseitigen Fehlerbereiche besitzt damit Masse höchstens <span class="arithmatex">\(q\)</span>.</p>
+<p><strong>Begründung:</strong> Minimum für untere Grenzen, Maximum für obere Grenzen; das Argument ist in beiden Koordinaten identisch.</p>
+</details>
+<details>
+<summary>3. Die gesamte Fehlerregion ist durch vier Teilbereiche überdeckt</summary>
+<p>Ein Punkt in <span class="arithmatex">\(R^\star\)</span>, der nicht in <span class="arithmatex">\(R(S)\)</span> liegt, verletzt mindestens eine der vier Koordinatenbedingungen. Also</p>
+<div class="arithmatex">\[
+E(S)\subseteq B_L\cup B_R\cup B_U\cup B_O.
+\]</div>
+<p>Mit der Subadditivität eines Wahrscheinlichkeitsmaßes folgt</p>
+<div class="arithmatex">\[
+L_D(h_S)\le\sum_{i\in\{L,R,U,O\}}D(B_i)=4q=\varepsilon.
+\]</div>
+<p><strong>Intuition:</strong> Die unbekannten Randbereiche können überlappen. Eine Summe zählt Überlappungen gegebenenfalls mehrfach; gerade deshalb ist sie eine obere Schranke und keine Gleichheit.</p>
+</details>
+</div>
+<h3 id="prazisierung-fur-punktmassen-und-beliebige-verteilungen">Präzisierung für Punktmassen und beliebige Verteilungen<a class="headerlink" href="#prazisierung-fur-punktmassen-und-beliebige-verteilungen" title="Permanent link">&para;</a></h3>
+<p>Das Blatt verlangt Streifen mit <em>exakt</em> <span class="arithmatex">\(q\)</span> Masse. Das ist bei diskreten Verteilungen nicht immer möglich. Liegt beispielsweise die gesamte Masse auf einem Punkt, kann ein Streifen nur Masse 0 oder 1 haben. Ohne weitere Voraussetzung reicht die anschauliche Konstruktion deshalb noch nicht für einen verteilungsfreien Beweis.</p>
+<p>Wir beheben das durch <strong>Quantilgrenzen</strong>. Die Trefferbereiche haben nun Masse <strong>mindestens</strong> <span class="arithmatex">\(q\)</span>; die bei einem Treffer verbleibenden Fehlerbereiche haben Masse <strong>höchstens</strong> <span class="arithmatex">\(q\)</span>.</p>
+<details class="info">
+<summary>Vollständiges Quantilargument – auch bei Atomen gültig</summary>
+<p>Definiere für die erste Koordinate das endliche Maß</p>
+<div class="arithmatex">\[
+F(t)=D(R^\star\cap\{x:x_1\le t\}),\qquad
+t_L=\inf\{t:F(t)\ge q\}.
+\]</div>
+<p>Weil <span class="arithmatex">\(D(R^\star)&gt;\varepsilon&gt;q\)</span> und das Zielrechteck beschränkt ist, ist die Menge nichtleer und das Quantil endlich. Die Rechtsstetigkeit von <span class="arithmatex">\(F\)</span> und die Stetigkeit des Maßes von unten liefern</p>
+<div class="arithmatex">\[
+D(R^\star\cap\{x_1\le t_L\})\ge q,
+\qquad
+D(R^\star\cap\{x_1&lt;t_L\})\le q.
+\]</div>
+<p>Die erste Ungleichung folgt durch Annäherung an <span class="arithmatex">\(t_L\)</span> von rechts. Für jedes <span class="arithmatex">\(s&lt;t_L\)</span> gilt <span class="arithmatex">\(F(s)&lt;q\)</span>; Annäherung von links liefert die zweite Ungleichung.</p>
+<p>Wähle den <strong>geschlossenen</strong> Trefferbereich <span class="arithmatex">\(B_L=R^\star\cap\{x_1\le t_L\}\)</span>. Trifft die Stichprobe <span class="arithmatex">\(B_L\)</span>, dann ist <span class="arithmatex">\(\widehat a_1\le t_L\)</span>. Der links ausgelassene Bereich liegt deshalb in <span class="arithmatex">\(R^\star\cap\{x_1&lt;t_L\}\)</span> und hat Masse höchstens <span class="arithmatex">\(q\)</span>. Eine Punktmasse genau auf <span class="arithmatex">\(t_L\)</span> ist im Trefferbereich enthalten, aber nicht in diesem offenen Fehlerbereich.</p>
+<p>Für die rechte Seite verwenden wir dasselbe Argument für die Zufallsgröße <span class="arithmatex">\(-x_1\)</span>; für unten und oben für <span class="arithmatex">\(x_2\)</span> beziehungsweise <span class="arithmatex">\(-x_2\)</span>. So erhalten wir vier feste Bereiche <span class="arithmatex">\(B_i\)</span> mit <span class="arithmatex">\(D(B_i)\ge q\)</span>. Wenn alle getroffen werden, hat jeder der vier einseitigen Fehlerbereiche Masse höchstens <span class="arithmatex">\(q\)</span>, und somit <span class="arithmatex">\(L_D(h_S)\le4q=\varepsilon\)</span>.</p>
+<p>Damit gilt die geometrische Aussage auch ohne Dichte- oder Stetigkeitsannahme. Die Trefferbereiche dürfen überlappen und können im Extremfall sogar identisch sein.</p>
+</details>
+<h2 id="teil-23-vom-geometrischen-argument-zur-pac-garantie">Teil 2.3: Vom geometrischen Argument zur PAC-Garantie<a class="headerlink" href="#teil-23-vom-geometrischen-argument-zur-pac-garantie" title="Permanent link">&para;</a></h2>
+<p>Die Logik ist: <strong>Wenn alle vier Bereiche getroffen werden, ist der Fehler klein.</strong> Daher muss bei großem Fehler mindestens ein Trefferbereich leer sein. Dieses seltene Ereignis können wir abschätzen.</p>
+<div class="tf-proof" markdown="1">
+<details>
+<summary>1. Das schlechte Ereignis in eine Vereinigung einbetten</summary>
+<p>Definiere <span class="arithmatex">\(A_i=\{S:S\cap B_i=\varnothing\}\)</span>, wobei nur die Eingabepunkte der Stichprobe gemeint sind. Weil <span class="arithmatex">\(B_i\subseteq R^\star\)</span>, wäre jeder Punkt darin positiv. Aus Teil 2.2 folgt per Kontraposition</p>
+<div class="arithmatex">\[
+\{S:L_D(h_S)&gt;\varepsilon\}\subseteq A_L\cup A_R\cup A_U\cup A_O.
+\]</div>
+<p><strong>Intuition:</strong> Ein großer Fehler kann nur entstehen, wenn der Algorithmus an mindestens einer Seite keine ausreichend randnahe positive Beobachtung erhält. Ein leerer Bereich allein erzwingt umgekehrt keinen großen Fehler.</p>
+</details>
+<details>
+<summary>2. Die Wahrscheinlichkeit eines leeren Bereichs abschätzen</summary>
+<p>Jeder Trainingspunkt verfehlt <span class="arithmatex">\(B_i\)</span> mit Wahrscheinlichkeit <span class="arithmatex">\(1-D(B_i)\)</span>. Wegen der unabhängigen Ziehungen gilt</p>
+<div class="arithmatex">\[
+\Pr(A_i)=(1-D(B_i))^m
+\le(1-q)^m
+\le e^{-qm}.
+\]</div>
+<p><strong>Begründung:</strong> <span class="arithmatex">\(D(B_i)\ge q\)</span>, und <span class="arithmatex">\(1-u\le e^{-u}\)</span> für <span class="arithmatex">\(u\ge0\)</span>. Es wird über sämtliche <span class="arithmatex">\(m\)</span> Trainingspunkte gerechnet, nicht nur über die zufällige Anzahl positiver Beispiele.</p>
+<p><strong>Intuition:</strong> Eine Region mit nennenswerter Masse über viele unabhängige Versuche vollständig zu verpassen, wird exponentiell unwahrscheinlich.</p>
+</details>
+<details>
+<summary>3. Den Union Bound über die vier Seiten anwenden</summary>
+<div class="arithmatex">\[
+\Pr(L_D(h_S)&gt;\varepsilon)
+\le\Pr\!\left(\bigcup_i A_i\right)
+\le\sum_i\Pr(A_i)
+\le4e^{-m\varepsilon/4}.
+\]</div>
+<p><strong>Begründung:</strong> Ereignisinklusion aus Schritt 1, Union Bound und die vier Abschätzungen aus Schritt 2.</p>
+<p><strong>Intuition:</strong> Es gibt vier Möglichkeiten, eine für den Beweis wichtige Seite zu verpassen. Die vier Ereignisse müssen nicht unabhängig sein.</p>
+</details>
+<details>
+<summary>4. Die Voraussetzung der Implikation annehmen und einsetzen</summary>
+<p>Nimm jetzt an, dass</p>
+<div class="arithmatex">\[
+m\ge\frac4\varepsilon\ln\!\left(\frac4\delta\right).
+\]</div>
+<p>Multiplikation mit <span class="arithmatex">\(-\varepsilon/4&lt;0\)</span> liefert</p>
+<div class="arithmatex">\[
+-\frac{m\varepsilon}{4}\le-\ln\!\left(\frac4\delta\right).
+\]</div>
+<p>Weil <span class="arithmatex">\(\exp\)</span> monoton steigt, erhalten wir</p>
+<div class="arithmatex">\[
+\Pr(L_D(h_S)&gt;\varepsilon)
+\le4e^{-m\varepsilon/4}
+\le4e^{-\ln(4/\delta)}
+=4\frac\delta4=\delta.
+\]</div>
+<p><strong>Intuition:</strong> Die Voraussetzung wird genau an der Stelle eingesetzt, an der sie die zuvor bewiesene Schranke klein genug macht. Damit ist die Schlussfolgerung bewiesen.</p>
+</details>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Ergebnis mit ganzzahligem m</p>
+<p>Unter den beschriebenen Voraussetzungen genügt</p>
+<div class="arithmatex">\[
+m\ge\left\lceil\frac4\varepsilon\ln\!\left(\frac4\delta\right)\right\rceil.
+\]</div>
+<p>Für <span class="arithmatex">\(\varepsilon=0{,}1\)</span>, <span class="arithmatex">\(\delta=0{,}05\)</span> sind das <span class="arithmatex">\(\lceil40\ln80\rceil=176\)</span> Beispiele. Die Garantie gilt für jedes <span class="arithmatex">\(D\)</span>, nicht nur für die Verteilung im Labor.</p>
+</div>
+<h2 id="theorie-und-simulation">Theorie und Simulation<a class="headerlink" href="#theorie-und-simulation" title="Permanent link">&para;</a></h2>
+<div class="tf-lab" data-tf-lab="pac"></div>
+
+<p><strong>Arbeitsauftrag:</strong> Starte bei <span class="arithmatex">\(m=40\)</span>, <span class="arithmatex">\(\varepsilon=0{,}1\)</span>, <span class="arithmatex">\(\delta=0{,}05\)</span>. Vergleiche den simulierten Anteil schlechter Modelle mit der theoretischen oberen Schranke. Setze anschließend <span class="arithmatex">\(m\)</span> auf die Garantieschwelle und simuliere erneut.</p>
+<p>Die Simulation verwendet stets unabhängige gleichverteilte Punkte im Einheitsquadrat und das im Rechteck-Labor angegebene feste Ziel. Für jede Trainingsstichprobe wird der wahre Fehler unter <strong>dieser</strong> Verteilung exakt über Flächen berechnet. Erst der Anteil schlechter Trainingsstichproben ist eine Monte-Carlo-Schätzung. Es wird also keine zweite, zufällige Teststichprobe verwendet.</p>
+<p>Die Exponentialschranke und <span class="arithmatex">\(4(1-\varepsilon/4)^m\)</span> sind im Diagramm bei 1 abgeschnitten. Sie bleiben verteilungsfreie obere Schranken; sie müssen den empirischen Verlauf nicht eng treffen.</p>
+<h2 id="was-ist-der-sinn-der-aufgabe">Was ist der Sinn der Aufgabe?<a class="headerlink" href="#was-ist-der-sinn-der-aufgabe" title="Permanent link">&para;</a></h2>
+<p>Die Rechteckklasse enthält unendlich viele Hypothesen, weil ihre Grenzen reelle Zahlen sind. Der endliche Union Bound mit Faktor <span class="arithmatex">\(|H|\)</span> wäre hier unbrauchbar. Trotzdem kann man die Fehlerkontrolle auf <strong>vier geometrische Ereignisse</strong> reduzieren. Entscheidend ist die Struktur der Klasse, nicht allein ihre Anzahl.</p>
+<p>Der VC-Bonus macht diesen Gedanken abstrakter: Rechtecke können bestimmte endliche Punktmengen frei beschriften, aber nicht beliebig große. Genau diese begrenzte Ausdrucksstärke ermöglicht allgemeine Lerngarantien.</p>
+<h2 id="selbstkontrolle-und-typische-fehler">Selbstkontrolle und typische Fehler<a class="headerlink" href="#selbstkontrolle-und-typische-fehler" title="Permanent link">&para;</a></h2>
+<div class="tf-quiz"><p><strong>Ein Randstreifen enthält keinen Trainingspunkt. Muss der wahre Fehler größer als ε sein?</strong></p><button data-correct="false" data-feedback="Bewiesen wurde nur: großer Fehler ⇒ mindestens ein leerer Streifen. Die Umkehrung wurde nicht bewiesen und ist im Allgemeinen falsch.">Ja, denn sonst wäre der Streifen getroffen.</button><button data-correct="true" data-feedback="Vier Treffer sind hinreichend für kleinen Fehler. Ein verfehlter Streifen kann selbst wenig zusätzlichen Fehler verursachen; der Gesamtfehler kann weiterhin klein sein.">Nein, der Fehler kann trotzdem höchstens ε sein.</button><p class="feedback" role="status" aria-live="polite"></p></div>
+
+<ul>
+<li><strong>Fehlerfläche und Fehlermasse verwechseln:</strong> Nur bei passender Gleichverteilung entspricht Fläche der Wahrscheinlichkeit.</li>
+<li><strong>Exakt gleiche Streifenmassen für jedes D voraussetzen:</strong> Bei Atomen benötigt man das Quantilargument.</li>
+<li><strong>Unabhängigkeit der vier Ereignisse behaupten:</strong> Der Union Bound braucht sie nicht.</li>
+<li><strong>Den leeren Positivdatensatz ignorieren:</strong> Der Lerner benötigt eine explizite Ausgabe für diesen Fall.</li>
+<li><strong>Empirisch gute Ergebnisse als Beweis verwenden:</strong> Sie betreffen eine gewählte Verteilung und endlich viele Wiederholungen.</li>
+</ul>
+<p><label class="progress-toggle"><input type="checkbox" data-progress="sheet01-ex2">Ich kann die drei Teile zu einer vollständigen PAC-Garantie verbinden.</label></p>
+<h2 id="quellen-und-einordnung">Quellen und Einordnung<a class="headerlink" href="#quellen-und-einordnung" title="Permanent link">&para;</a></h2>
+<p><code>exercises.pdf</code>, Aufgabe 2.1–2.3, PDF-Seite 1; Shalev-Shwartz/Ben-David, Aufgabe 2.3, Buchseiten 20–21 / PDF-Seiten 36–37. Das Union-Bound-Argument folgt dem Rahmen von Kapitel 2.3 und <code>VL.pdf</code>, PDF-Seiten 40–45. Fallunterscheidung, Leermengen-Konvention, Quantilpräzisierung, Erläuterungen und Simulationen sind eigene Ausarbeitungen; sie sind keine zitierte offizielle Musterlösung.</p>
+<p><a class="tf-btn" href="vc-dimension.html">Weiter zum VC-Bonus →</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Eigenständiges Lernprojekt · keine offizielle Musterlösung der TU Dortmund
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../assets/javascripts/mathjax-config.js"></script>
+      
+        <script src="../assets/vendor/mathjax/tex-svg.js"></script>
+      
+        <script src="../assets/vendor/plotly/plotly.min.js"></script>
+      
+        <script src="../assets/javascripts/math-core.js"></script>
+      
+        <script src="../assets/javascripts/learning.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "tfoml-interactive",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Interaktives TFOML-Lernbuch mit geprüften mathematischen Simulationen",
+  "scripts": {"test": "node --test tests/*.test.cjs"},
+  "engines": {"node": ">=20"},
+  "devDependencies": {"jsdom": "26.1.0"}
+}
